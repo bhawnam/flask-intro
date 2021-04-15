@@ -13,6 +13,11 @@ AWESOMENESS = [
     'oh-so-not-meh', 'brilliant', 'ducky', 'coolio', 'incredible',
     'wonderful', 'smashing', 'lovely']
 
+MEANNESS = [
+    'stinky', 'warty', 'lame', 'covered in boils', 'a CLOWN',
+    'blander than oatmeal', 'the absolute worst', 'an utter fool',
+    'the least stealthy ninja ever']   
+
 
 @app.route('/')
 def start_here():
@@ -34,9 +39,6 @@ def start_here():
 @app.route('/hello')
 def say_hello():
     """Say hello and prompt for user's name."""
-    option = ""
-    for compliment in AWESOMENESS:
-      option = option + f"<option value={compliment}>{compliment}</option>"
 
     return f"""
     <!doctype html>
@@ -46,21 +48,74 @@ def say_hello():
       </head>
       <body>
         <h1>Hi There!</h1>
-        <form action="/greet">
-          What's your name? <input type="text" name="person">
-          What would you want your compliment to be?
-          <select name="compliment">
-          {option}
+        <form action="/process_hello">
+          Would you want a compliment or an insult?
+          <input type="radio" name="answer" value="insult"> INSULT
+          <input type="radio" name="answer" value="compliment"> COMPLIMENT  
           <input type="submit" value="Submit">
         </form>
       </body>
     </html>
     """
 
+@app.route('/process_hello')
+def process_hello():
+    """Say hello and prompt for user's name."""
+    option = ""
+
+    reply = request.args.get("answer")
+
+    if reply == "compliment":
+      for compliment in AWESOMENESS:
+        option = option + f"<option value={compliment}>{compliment}</option>"
+
+      response = f"""
+        <!doctype html>
+        <html>
+          <head>
+            <title>Hi There!</title>
+          </head>
+          <body>
+            <h1>Hi There!</h1>
+            <form action="/greet">
+              What's your name? <input type="text" name="person">
+              What would you want your compliment to be?
+              <select name="compliment">
+              {option}
+              <input type="submit" value="Submit">
+            </form>
+          </body>
+        </html>
+        """   
+
+    if reply == "insult":
+      for insult in MEANNESS:
+        option = option + f"<option value={insult}>{insult}</option>"
+
+      response = f"""
+        <!doctype html>
+        <html>
+          <head>
+            <title>Hi There!</title>
+          </head>
+          <body>
+            <h1>Hi There!</h1>
+            <form action="/diss">
+              What's your name? <input type="text" name="person">
+              What would you want your compliment to be?
+              <select name="insult">
+              {option}
+              <input type="submit" value="Submit">
+            </form>
+          </body>
+        </html>
+        """   
+
+    return response  
 
 @app.route('/greet')
 def greet_person():
-    """Get user by name."""
+    """Greet user by name."""
 
     player = request.args.get("person")
 
@@ -77,6 +132,26 @@ def greet_person():
       </body>
     </html>
     """
+
+@app.route('/diss')
+def diss_person():
+    """Diss user by name."""
+
+    player = request.args.get("person")
+
+    insult = request.args.get("insult")
+
+    return f"""
+    <!doctype html>
+    <html>
+      <head>
+        <title>An Insult</title>
+      </head>
+      <body>
+        Hi, {player}! I think you're {insult}!
+      </body>
+    </html>
+    """    
 
 
 if __name__ == '__main__':
