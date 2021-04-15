@@ -34,8 +34,11 @@ def start_here():
 @app.route('/hello')
 def say_hello():
     """Say hello and prompt for user's name."""
+    option = ""
+    for compliment in AWESOMENESS:
+      option = option + f"<option value={compliment}>{compliment}</option>"
 
-    return """
+    return f"""
     <!doctype html>
     <html>
       <head>
@@ -45,6 +48,9 @@ def say_hello():
         <h1>Hi There!</h1>
         <form action="/greet">
           What's your name? <input type="text" name="person">
+          What would you want your compliment to be?
+          <select name="compliment">
+          {option}
           <input type="submit" value="Submit">
         </form>
       </body>
