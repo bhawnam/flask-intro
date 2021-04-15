@@ -64,19 +64,19 @@ def greet_person():
 
     player = request.args.get("person")
 
-    compliment = choice(AWESOMENESS)
+    compliment = request.args.get("compliment")
 
-    return """
+    return f"""
     <!doctype html>
     <html>
       <head>
         <title>A Compliment</title>
       </head>
       <body>
-        Hi, {}! I think you're {}!
+        Hi, {player}! I think you're {compliment}!
       </body>
     </html>
-    """.format(player, compliment)
+    """
 
 
 if __name__ == '__main__':
