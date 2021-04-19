@@ -14,9 +14,9 @@ AWESOMENESS = [
     'wonderful', 'smashing', 'lovely']
 
 MEANNESS = [
-    'stinky', 'warty', 'lame', 'covered in boils', 'a CLOWN',
-    'blander than oatmeal', 'the absolute worst', 'an utter fool',
-    'the least stealthy ninja ever']   
+    'stinky', 'warty', 'lame', 'covered-in-boils', 'a-CLOWN',
+    'blander-than-oatmeal', 'the-absolute-worst', 'an-utter-fool',
+    'the-least-stealthy-ninja-ever']   
 
 
 @app.route('/')
@@ -102,7 +102,7 @@ def process_hello():
             <h1>Hi There!</h1>
             <form action="/diss">
               What's your name? <input type="text" name="person">
-              What would you want your compliment to be?
+              What would you want your insult to be?
               <select name="insult">
               {option}
               <input type="submit" value="Submit">
@@ -140,6 +140,7 @@ def diss_person():
     player = request.args.get("person")
 
     insult = request.args.get("insult")
+    print(f"!!!!!!!!!!!!!!{insult}")
 
     return f"""
     <!doctype html>
